@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Session 37</title>
+  <style>
+    body {
+      background: black;
+      color: #39ff14;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #text {
+      white-space: pre-line;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="text"></div>
+
+<script>
+const lines = [
+  "BLACKTHORNE STATE HOSPITAL",
+  "Forensic Psychiatry Division",
+  "",
+  "Case File: Daniel Stevenson",
+  "",
+  "Accessing Session Records..."
+];
+
+let i = 0;
+function typeLine() {
+  if (i < lines.length) {
+    document.getElementById("text").innerHTML += lines[i] + "\n";
+    i++;
+    setTimeout(typeLine, 800);
+  } else {
+    setTimeout(() => {
+      document.body.innerHTML = `
+        <div id="text">
+        Session Records Accessed.
+        Verification Pending...
+        </div>
+      `;
+    }, 1500);
+  }
+}
+
+typeLine();
+</script>
+
+</body>
+</html>
