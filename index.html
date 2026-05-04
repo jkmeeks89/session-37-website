@@ -60,12 +60,17 @@ button:hover {
 
 .code { position:absolute; top:20px; right:20px; color:#555; }
 #password {
-  display:flex;
+  display:none;
   justify-content:center;
   align-items:center;
   flex-direction:column;
   width:100%;
   height:100%;
+}
+  .active { display:block; }
+
+#password.active {
+  display:flex;
 }
 </style>
 </head>
