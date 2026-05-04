@@ -597,11 +597,31 @@ Daniel: The truth.
 [NOTE: Subject no longer disputes involvement. Emotional response minimal.]`
 };
 
-window.openTranscript = function(n){
-  openPage('transView');
-  setTimeout(()=>type(transText, transcripts[n],10),100);
-}
+let isTyping = false;
 
+window.openTranscript = function(n){
+
+  if(isTyping) return;
+
+  openPage('transView');
+
+  transText.innerHTML = "";
+  isTyping = true;
+
+  let text = transcripts[n];
+  let i = 0;
+
+  function typeSafe(){
+    if(i < text.length){
+      transText.innerHTML += text[i++];
+      setTimeout(typeSafe, 10);
+    } else {
+      isTyping = false;
+    }
+  }
+
+  typeSafe();
+}
 // PASSWORD
 window.checkPass = function(){
   if(pass.value==="3801"){
