@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transcript Archive</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="home-btn" href="index.html">Home</a>
+  <div id="topText"></div>
+  <div id="buttons" class="below-buttons" style="opacity:0; transition:opacity 1s ease;">
+    <a class="btn" href="log01.html">Stevenson_Log_01</a>
+    <a class="btn" href="log03.html">Stevenson_Log_03</a>
+    <a class="btn" href="log02.html">Stevenson_Log_02</a>
+    <a class="btn" href="log04.html">Stevenson_Log_04</a>
+  </div>
+
+  <script src="typer.js"></script>
+  <script>
+    const text = "TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation";
+    typeText(document.getElementById('topText'), text, 35, () => {
+      document.getElementById('buttons').style.opacity = '1';
+    });
+  </script>
+</body>
+</html>

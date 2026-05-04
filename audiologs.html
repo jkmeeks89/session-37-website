@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Logs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="home-btn" href="index.html">Home</a>
+
+  <div class="grid-buttons">
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('a1')">Stevenson_Audio_01</button>
+      <audio id="a1" src="assets/Log%201.wav" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('a3')">Stevenson_Audio_03</button>
+      <audio id="a3" src="assets/Log3.wav" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('a2')">Stevenson_Audio_02</button>
+      <audio id="a2" src="assets/Log%202.wav" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('a4')">Stevenson_Audio_04</button>
+      <audio id="a4" src="assets/Log_4.mp3" preload="none" controls></audio>
+    </div>
+
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('s01')">SESSION_01_UPLOADED</button>
+      <audio id="s01" src="assets/SESSION_01_UPLOADED.m4a" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('s12')">SESSION_12_UPLOADED</button>
+      <audio id="s12" src="assets/SESSION_12_UPLOADED.m4a" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('s19')">SESSION_19_UPLOADED</button>
+      <audio id="s19" src="assets/SESSION_19_UPLOADED.m4a" preload="none" controls></audio>
+    </div>
+    <div class="audio-stack">
+      <button class="btn" onclick="playOnly('s37c')">SESSION_37_CRITICAL_UPLOADED</button>
+      <audio id="s37c" src="assets/SESSION_37_CRITICAL_UPLOADED.m4a" preload="none" controls></audio>
+    </div>
+  </div>
+
+  <script>
+    function playOnly(id) {
+      document.querySelectorAll('audio').forEach(a => {
+        if (a.id !== id) { a.pause(); a.currentTime = 0; }
+      });
+      const el = document.getElementById(id);
+      el.play();
+    }
+  </script>
+</body>
+</html>

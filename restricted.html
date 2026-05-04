@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Restricted Access</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="home-btn" href="index.html">Home</a>
+
+  <div id="passwordStage" class="password-box">
+    <div>RESTRICTED ACCESS</div>
+    <div>Enter password:</div>
+    <input id="pw" type="password" autocomplete="off" autofocus>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div id="terminal" class="left-text" style="display:none;"></div>
+  <div id="granted" class="center-text" style="display:none;"></div>
+  <div id="report" class="left-text" style="display:none;"></div>
+  <div id="audioStage" class="center-text" style="display:none;">
+    <div id="audioText" style="white-space:pre-wrap;"></div>
+    <div style="margin-top:30px;">
+      <audio id="restrictedAudio" src="assets/Restricted.mp3" controls preload="none"></audio>
+    </div>
+  </div>
+
+  <script src="typer.js"></script>
+  <script>
+    const pw = document.getElementById('pw');
+    const err = document.getElementById('err');
+    const passwordStage = document.getElementById('passwordStage');
+
+    pw.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+
+    function tryUnlock() {
+      if (pw.value === '3801') {
+        passwordStage.style.display = 'none';
+        startSequence();
+      } else {
+        err.textContent = 'ACCESS DENIED';
+        pw.value = '';
+      }
+    }
+
+    const terminalLines = [
+      "Initializing secure environment...",
+      "Loading kernel modules...",
+      "Mounting /dev/sda1 → /secure",
+      "Checking permissions...",
+      "Permission override detected",
+      "Authenticating user...",
+      "ACCESS LEVEL: UNKNOWN",
+      "Attempting escalation...",
+      "Escalation successful",
+      "Bypassing audit logs...",
+      "Injecting session key...",
+      "Key accepted",
+      "Accessing internal directories...",
+      "cd /var/restricted/",
+      "ls -la",
+      "-rw-r--r--  session_log_12.dat",
+      "-rw-r--r--  session_log_19.dat",
+      "-rw-r--r--  session_log_37.dat",
+      "-rw-r--r--  session_log_38.dat",
+      "Opening file: session_log_37.dat",
+      "ERROR: file integrity compromised",
+      "Retrying...",
+      "Opening file: session_log_37.dat",
+      "WARNING: unauthorized trace detected",
+      "Continuing anyway...",
+      "Extracting data stream...",
+      "Decryption failed",
+      "Applying fallback method...",
+      "Partial reconstruction complete",
+      ">>> anomaly detected <<<",
+      ">>> anomaly detected <<<",
+      ">>> anomaly detected <<<",
+      "buffer overflow...",
+      "memory corruption detected",
+      "attempting recovery...",
+      "attempting recovery...",
+      "FAILED",
+      "Preparing display buffer..."
+    ];
+
+    const reportText = `CLEARANCE LEVEL: RESTRICTED
+
+
+FILE: INTERNAL REVIEW
+SUBJECT: Daniel Stevenson
+AUTHORIZED PERSONNEL ONLY
+
+
+INTERNAL NOTE:
+
+The following material was not included in the official case file.
+
+Reason:
+Inconsistencies in recorded sessions.
+
+
+ANOMALY REPORT:
+
+Multiple recordings contain audio not present during live sessions.
+
+Review confirms:
+
+- Secondary voices detected
+- No additional individuals present in room
+- Audio artifacts consistent across multiple logs
+
+Conclusion:
+
+Source unknown.
+
+
+SUPPLEMENTAL INTERVIEW EXCERPT:
+
+Dr. Victor Elm: Why didn’t you stop?
+
+Daniel Stevenson: They wouldn’t stop.
+
+Dr. Victor Elm: What do you mean?
+
+Daniel Stevenson: The crying.
+
+Dr. Victor Elm: And what did you do?
+
+[Pause — 12 seconds]
+
+Daniel Stevenson: I made it quiet.
+
+
+CASE NOTE:
+
+No signs of forced entry.
+
+No defensive wounds.
+
+No evidence of struggle.
+
+
+FINAL OBSERVATION:
+
+Subject no longer denies involvement.
+
+Subject no longer asks what happened.
+
+Subject only asks:
+
+“Can you still hear them?”`;
+
+    function startSequence() {
+      const terminal = document.getElementById('terminal');
+      const granted = document.getElementById('granted');
+      const report = document.getElementById('report');
+      const audioStage = document.getElementById('audioStage');
+      const audioText = document.getElementById('audioText');
+
+      terminal.style.display = 'block';
+      typeLines(terminal, terminalLines, 8, 120, () => {
+        // hold 5 seconds, then disappear
+        setTimeout(() => {
+          terminal.style.display = 'none';
+          terminal.textContent = '';
+          // Access Granted appears for 3 seconds
+          granted.style.display = 'block';
+          granted.textContent = 'Access Granted';
+          setTimeout(() => {
+            granted.style.display = 'none';
+            granted.textContent = '';
+            // Type the report on left side
+            report.style.display = 'block';
+            typeText(report, reportText, 10, () => {
+              // stay 30 seconds, flash 4 times, disappear
+              setTimeout(() => {
+                report.classList.add('flash-out');
+                setTimeout(() => {
+                  report.style.display = 'none';
+                  report.textContent = '';
+                  // Show audio detected text + audio
+                  audioStage.style.display = 'block';
+                  typeText(audioText, '[Audio_File_Detected]\n\n[Session_38_Audio]', 30);
+                }, 2000);
+              }, 30000);
+            });
+          }, 3000);
+        }, 5000);
+      });
+    }
+  </script>
+</body>
+</html>
