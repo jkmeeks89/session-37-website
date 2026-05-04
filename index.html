@@ -42,10 +42,7 @@ button {
   cursor:pointer;
 }
 
-button:hover {
-  background:#39ff14;
-  color:black;
-}
+button:hover { background:#39ff14; color:black; }
 
 .home { position:absolute; top:20px; right:20px; }
 
@@ -58,7 +55,6 @@ button:hover {
 <!-- HOME -->
 <div id="home" class="screen active">
 <img id="bg" class="bg" src="background1.jpg">
-
 <div id="intro" class="top"></div>
 <div id="mid" class="center"></div>
 
@@ -90,12 +86,12 @@ button:hover {
 
 <br><br>
 
-<button onclick="play('SESSION_01_UPLOADED.mp3')">SESSION_01_UPLOADED</button><br>
-<button onclick="play('SESSION_12_UPLOADED.mp3')">SESSION_12_UPLOADED</button><br>
-<button onclick="play('SESSION_19_UPLOADED.mp3')">SESSION_19_UPLOADED</button><br>
-<button onclick="play('SESSION_37_CRITICAL_UPLOADED.mp3')">SESSION_37_CRITICAL_UPLOADED</button><br>
-<button onclick="play('SESSION_37_POST_UPLOADED.mp3')">SESSION_37_POST_UPLOADED</button><br>
-<button onclick="play('SESSION_LOCKED_UPLOADED.mp3')">SESSION_LOCKED_UPLOADED</button>
+<button onclick="play('SESSION_01_UPLOADED.wav')">SESSION_01_UPLOADED</button><br>
+<button onclick="play('SESSION_12_UPLOADED.wav')">SESSION_12_UPLOADED</button><br>
+<button onclick="play('SESSION_19_UPLOADED.wav')">SESSION_19_UPLOADED</button><br>
+<button onclick="play('SESSION_37_CRITICAL_UPLOADED.wav')">SESSION_37_CRITICAL_UPLOADED</button><br>
+<button onclick="play('SESSION_37_POST_UPLOADED.wav')">SESSION_37_POST_UPLOADED</button><br>
+<button onclick="play('SESSION_LOCKED_UPLOADED.wav')">SESSION_LOCKED_UPLOADED</button>
 
 </div>
 </div>
@@ -106,10 +102,10 @@ button:hover {
 <div id="transTitle" class="top"></div>
 
 <div class="center">
-<button onclick="openTranscript(1)">Stevenson_Log_01</button>
-<button onclick="openTranscript(2)">Stevenson_Log_02</button>
-<button onclick="openTranscript(3)">Stevenson_Log_03</button>
-<button onclick="openTranscript(4)">Stevenson_Log_04</button>
+<button onclick="loadTranscript(1)">Stevenson_Log_01</button>
+<button onclick="loadTranscript(2)">Stevenson_Log_02</button>
+<button onclick="loadTranscript(3)">Stevenson_Log_03</button>
+<button onclick="loadTranscript(4)">Stevenson_Log_04</button>
 </div>
 </div>
 
@@ -122,7 +118,7 @@ button:hover {
 <div id="password" class="screen center">
 <input id="pass">
 <br><br>
-<button onclick="check()">Submit</button>
+<button onclick="checkPass()">Submit</button>
 <button onclick="goHome()">Cancel</button>
 </div>
 
@@ -136,7 +132,8 @@ button:hover {
 
 <script>
 
-function type(el,text,speed=20){
+// TYPE EFFECT
+function type(el, text, speed=20){
   el.innerHTML="";
   let i=0;
   function t(){
@@ -148,7 +145,7 @@ function type(el,text,speed=20){
   t();
 }
 
-// INTRO FLOW
+// INTRO TIMING
 setTimeout(()=>{
   bg.style.display="none";
   type(intro,`BLACKTHORNE STATE HOSPITAL
@@ -177,23 +174,18 @@ function openPage(id){
 
 function goHome(){ location.reload(); }
 
-// SESSION
-type(sessionText,`SESSION 37
+// SESSION TEXT
+type(sessionText,`SESSION 37 Primary Case File
 
-Primary Case File
+SUBJECT: Daniel Stevenson AGE: 34 STATUS: In Custody
 
-SUBJECT: Daniel Stevenson
-AGE: 34
-STATUS: In Custody
-
-EVALUATING PSYCHOLOGIST: Dr. Victor Elm
-FACILITY: Blackthorne State Hospital
-DIVISION: Forensic Psychiatry
+EVALUATING PSYCHOLOGIST: Dr. Victor Elm FACILITY: Blackthorne State Hospital DIVISION: Forensic Psychiatry
 
 CASE SUMMARY:
 
 On March 14th...
-`);
+
+(continue your full text here)`);
 
 // AUDIO
 function play(file){
@@ -202,14 +194,14 @@ function play(file){
 }
 
 // PASSWORD
-function check(){
+function checkPass(){
   if(pass.value==="3801"){
     openPage('restricted');
     runRestricted();
   }
 }
 
-// RESTRICTED
+// RESTRICTED SEQUENCE
 function runRestricted(){
 
 let seq = [
@@ -221,14 +213,42 @@ let seq = [
 "Authenticating user...",
 "ACCESS LEVEL: UNKNOWN",
 "Attempting escalation...",
-"Escalation successful"
+"Escalation successful",
+"Bypassing audit logs...",
+"Injecting session key...",
+"Key accepted",
+"Accessing internal directories...",
+"cd /var/restricted/",
+"ls -la",
+"-rw-r--r-- session_log_12.dat",
+"-rw-r--r-- session_log_19.dat",
+"-rw-r--r-- session_log_37.dat",
+"-rw-r--r-- session_log_38.dat",
+"Opening file: session_log_37.dat",
+"ERROR: file integrity compromised",
+"Retrying...",
+"Opening file: session_log_37.dat",
+"WARNING: unauthorized trace detected",
+"Continuing anyway...",
+"Extracting data stream...",
+"Decryption failed",
+"Applying fallback method...",
+"Partial reconstruction complete",
+">>> anomaly detected <<<",
+">>> anomaly detected <<<",
+">>> anomaly detected <<<",
+"buffer overflow...",
+"memory corruption detected",
+"attempting recovery...",
+"FAILED",
+"Preparing display buffer..."
 ];
 
 let i=0;
 function next(){
   if(i<seq.length){
     resText.innerHTML += seq[i++]+"\n";
-    setTimeout(next,80);
+    setTimeout(next,40);
   } else {
     setTimeout(showFinal,5000);
   }
@@ -242,6 +262,8 @@ resText.innerHTML=`Access Granted
 
 CLEARANCE LEVEL: RESTRICTED
 
+FILE: INTERNAL REVIEW
+
 “Can you still hear them?”
 
 <br><br>
@@ -249,9 +271,9 @@ CLEARANCE LEVEL: RESTRICTED
 }
 
 // TRANSCRIPTS
-function openTranscript(n){
+function loadTranscript(n){
   openPage('transView');
-  type(transText,"SESSION "+n+" LOADING...",20);
+  type(transText,"LOADING SESSION "+n+"...",15);
 }
 
 type(transTitle,"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
