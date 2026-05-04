@@ -59,6 +59,14 @@ button:hover {
 .home { position:absolute; top:20px; right:20px; }
 
 .code { position:absolute; top:20px; right:20px; color:#555; }
+#password {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+}
 </style>
 </head>
 
@@ -127,7 +135,7 @@ button:hover {
 </div>
 
 <!-- PASSWORD -->
-<div id="password" class="screen center">
+<div id="password" class="screen">
 <input id="pass">
 <br><br>
 <button onclick="checkPass()">Submit</button>
@@ -356,7 +364,7 @@ Dr. Elm: And what happened after that?
 
 Daniel: I don’t remember clearly.
 
-[NOTE: Subject maintains steady tone. No visible distress.]" There should be a button in the top right corner that says "Transcripts" in green lettering. When clicked, it should bring you back to the transcripts page.`,
+[NOTE: Subject maintains steady tone. No visible distress.]`,
 2:`SESSION ID: 12 DATE: September 26 TIME: 11:42 AM
 
 SUBJECT: Daniel Stevenson INTERVIEWER: Dr. Victor Elm
@@ -605,24 +613,72 @@ let lines = [
 "Loading kernel modules...",
 "Mounting /dev/sda1 → /secure",
 "Checking permissions...",
-"Permission override detected"
+"Permission override detected",
+"Authenticating user...",
+"ACCESS LEVEL: UNKNOWN",
+"Attempting escalation...",
+"Escalation successful",
+"Bypassing audit logs...",
+"Injecting session key...",
+"Key accepted"
 ];
 
 let i=0;
 
 function next(){
   if(i<lines.length){
-    resText.innerHTML += lines[i++]+"\n";
+
+    resText.style.position="absolute";
+    resText.style.top="20px";
+    resText.style.left="20px";
+    resText.style.transform="none";
+    resText.style.textAlign="left";
+
+    resText.innerHTML += lines[i++] + "\n";
     setTimeout(next,25);
+
   } else {
-    setTimeout(()=>{
-      resText.innerHTML="Access Granted";
-    },5000);
+    setTimeout(showAccess,5000);
   }
 }
 
 resText.innerHTML="";
 next();
+}
+
+function showAccess(){
+
+  resText.style.position="absolute";
+  resText.style.top="50%";
+  resText.style.left="50%";
+  resText.style.transform="translate(-50%, -50%)";
+  resText.style.textAlign="center";
+
+  resText.innerHTML="Access Granted";
+
+  setTimeout(showFinal,3000);
+}
+
+function showFinal(){
+
+  resText.style.position="absolute";
+  resText.style.top="20px";
+  resText.style.left="20px";
+  resText.style.transform="none";
+  resText.style.textAlign="left";
+
+  resText.innerHTML = `
+CLEARANCE LEVEL: RESTRICTED
+
+FILE: INTERNAL REVIEW
+
+[Audio_File_Detected]
+
+[Session_38_Audio]
+
+<br><br>
+<button onclick="play('Restricted.mp3')">Play Audio</button>
+`;
 }
 
 type(document.getElementById("transTitle"),
