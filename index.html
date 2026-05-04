@@ -1,58 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Session 37</title>
-  <style>
-    body {
-      background: black;
-      color: #39ff14;
-      font-family: monospace;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    #text {
-      white-space: pre-line;
-      font-size: 24px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Session 37</title>
+
+<style>
+body {
+  margin:0;
+  background:black;
+  color:#39ff14;
+  font-family:monospace;
+  overflow:hidden;
+}
+
+.screen { position:absolute; width:100%; height:100%; display:none; }
+.active { display:block; }
+
+img.bg {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.top { position:absolute; top:20px; width:100%; text-align:center; }
+.center { position:absolute; top:50%; width:100%; text-align:center; transform:translateY(-50%); }
+.left { position:absolute; left:20px; top:20px; white-space:pre-line; }
+
+.buttons {
+  position:absolute;
+  bottom:30px;
+  width:100%;
+  text-align:center;
+}
+
+button {
+  background:black;
+  color:#39ff14;
+  border:1px solid #39ff14;
+  padding:10px 20px;
+  margin:10px;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#39ff14;
+  color:black;
+}
+
+.home { position:absolute; top:20px; right:20px; }
+
+.code { position:absolute; top:20px; right:20px; color:#222; }
+</style>
 </head>
+
 <body>
 
-<div id="text"></div>
+<!-- HOME -->
+<div id="home" class="screen active">
+<img id="bg" class="bg" src="background1.jpg">
+
+<div id="intro" class="top"></div>
+<div id="mid" class="center"></div>
+
+<div id="mainBtns" class="buttons" style="display:none;">
+<button onclick="openPage('session')">Session 37</button>
+<button onclick="openPage('audio')">Audio Logs</button>
+<button onclick="openPage('transcripts')">Transcripts</button>
+<button onclick="openPage('password')">Restricted Access</button>
+</div>
+
+<div class="code">3801</div>
+</div>
+
+<!-- SESSION -->
+<div id="session" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div id="sessionText" class="left"></div>
+</div>
+
+<!-- AUDIO -->
+<div id="audio" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div class="center">
+
+<button onclick="play('Log_one.mp3')">Stevenson_Audio_01</button><br>
+<button onclick="play('Log_two.mp3')">Stevenson_Audio_02</button><br>
+<button onclick="play('Log_three.mp3')">Stevenson_Audio_03</button><br>
+<button onclick="play('Log_four.mp3')">Stevenson_Audio_04</button>
+
+<br><br>
+
+<button onclick="play('SESSION_01_UPLOADED.mp3')">SESSION_01_UPLOADED</button><br>
+<button onclick="play('SESSION_12_UPLOADED.mp3')">SESSION_12_UPLOADED</button><br>
+<button onclick="play('SESSION_19_UPLOADED.mp3')">SESSION_19_UPLOADED</button><br>
+<button onclick="play('SESSION_37_CRITICAL_UPLOADED.mp3')">SESSION_37_CRITICAL_UPLOADED</button><br>
+<button onclick="play('SESSION_37_POST_UPLOADED.mp3')">SESSION_37_POST_UPLOADED</button><br>
+<button onclick="play('SESSION_LOCKED_UPLOADED.mp3')">SESSION_LOCKED_UPLOADED</button>
+
+</div>
+</div>
+
+<!-- TRANSCRIPTS -->
+<div id="transcripts" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div id="transTitle" class="top"></div>
+
+<div class="center">
+<button onclick="openTranscript(1)">Stevenson_Log_01</button>
+<button onclick="openTranscript(2)">Stevenson_Log_02</button>
+<button onclick="openTranscript(3)">Stevenson_Log_03</button>
+<button onclick="openTranscript(4)">Stevenson_Log_04</button>
+</div>
+</div>
+
+<div id="transView" class="screen">
+<button class="home" onclick="openPage('transcripts')">Transcripts</button>
+<div id="transText" class="left"></div>
+</div>
+
+<!-- PASSWORD -->
+<div id="password" class="screen center">
+<input id="pass">
+<br><br>
+<button onclick="check()">Submit</button>
+<button onclick="goHome()">Cancel</button>
+</div>
+
+<!-- RESTRICTED -->
+<div id="restricted" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div id="resText" class="left"></div>
+</div>
+
+<audio id="player"></audio>
 
 <script>
-const lines = [
-  "BLACKTHORNE STATE HOSPITAL",
-  "Forensic Psychiatry Division",
-  "",
-  "Case File: Daniel Stevenson",
-  "",
-  "Accessing Session Records..."
-];
 
-let i = 0;
-function typeLine() {
-  if (i < lines.length) {
-    document.getElementById("text").innerHTML += lines[i] + "\n";
-    i++;
-    setTimeout(typeLine, 800);
-  } else {
-    setTimeout(() => {
-      document.body.innerHTML = `
-        <div id="text">
-        Session Records Accessed.
-        Verification Pending...
-        </div>
-      `;
-    }, 1500);
+function type(el,text,speed=20){
+  el.innerHTML="";
+  let i=0;
+  function t(){
+    if(i<text.length){
+      el.innerHTML+=text[i++];
+      setTimeout(t,speed);
+    }
+  }
+  t();
+}
+
+// INTRO FLOW
+setTimeout(()=>{
+  bg.style.display="none";
+  type(intro,`BLACKTHORNE STATE HOSPITAL
+Forensic Psychiatry Division
+
+Case File: Daniel Stevenson
+
+Accessing Session Records...`);
+},5000);
+
+setTimeout(()=>{
+  intro.innerHTML="";
+  type(mid,`Session Records Accessed.
+Verification Pending...`);
+},12000);
+
+setTimeout(()=>{
+  mainBtns.style.display="block";
+},17000);
+
+// NAV
+function openPage(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome(){ location.reload(); }
+
+// SESSION
+type(sessionText,`SESSION 37
+
+Primary Case File
+
+SUBJECT: Daniel Stevenson
+AGE: 34
+STATUS: In Custody
+
+EVALUATING PSYCHOLOGIST: Dr. Victor Elm
+FACILITY: Blackthorne State Hospital
+DIVISION: Forensic Psychiatry
+
+CASE SUMMARY:
+
+On March 14th...
+`);
+
+// AUDIO
+function play(file){
+  player.src=file;
+  player.play();
+}
+
+// PASSWORD
+function check(){
+  if(pass.value==="3801"){
+    openPage('restricted');
+    runRestricted();
   }
 }
 
-typeLine();
+// RESTRICTED
+function runRestricted(){
+
+let seq = [
+"Initializing secure environment...",
+"Loading kernel modules...",
+"Mounting /dev/sda1 → /secure",
+"Checking permissions...",
+"Permission override detected",
+"Authenticating user...",
+"ACCESS LEVEL: UNKNOWN",
+"Attempting escalation...",
+"Escalation successful"
+];
+
+let i=0;
+function next(){
+  if(i<seq.length){
+    resText.innerHTML += seq[i++]+"\n";
+    setTimeout(next,80);
+  } else {
+    setTimeout(showFinal,5000);
+  }
+}
+resText.innerHTML="";
+next();
+}
+
+function showFinal(){
+resText.innerHTML=`Access Granted
+
+CLEARANCE LEVEL: RESTRICTED
+
+“Can you still hear them?”
+
+<br><br>
+<button onclick="play('Restricted.mp3')">[Session_38_Audio]</button>`;
+}
+
+// TRANSCRIPTS
+function openTranscript(n){
+  openPage('transView');
+  type(transText,"SESSION "+n+" LOADING...",20);
+}
+
+type(transTitle,"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+
 </script>
 
 </body>
