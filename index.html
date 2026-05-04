@@ -2,58 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Session 37</title>
-  <style>
-    body {
-      background: black;
-      color: #39ff14;
-      font-family: monospace;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    #text {
-      white-space: pre-line;
-      font-size: 24px;
-    }
-  </style>
+  <title>Blackthorne State Hospital</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="code">3801</div>
 
-<div id="text"></div>
+  <img id="bg" class="bg-image" src="assets/Background%201.png" alt="">
 
-<script>
-const lines = [
-  "BLACKTHORNE STATE HOSPITAL",
-  "Forensic Psychiatry Division",
-  "",
-  "Case File: Daniel Stevenson",
-  "",
-  "Accessing Session Records..."
-];
+  <div id="topText"></div>
 
-let i = 0;
-function typeLine() {
-  if (i < lines.length) {
-    document.getElementById("text").innerHTML += lines[i] + "\n";
-    i++;
-    setTimeout(typeLine, 800);
-  } else {
+  <div id="buttons" class="button-row">
+    <a class="btn" href="session37.html">Session 37</a>
+    <a class="btn" href="audiologs.html">Audio Logs</a>
+    <a class="btn" href="transcripts.html">Transcripts</a>
+    <a class="btn" href="restricted.html">Restricted Access</a>
+  </div>
+
+  <script src="typer.js"></script>
+  <script>
+    const text1 = "BLACKTHORNE STATE HOSPITAL\nForensic Psychiatry Division\n\nCase File: Daniel Stevenson\n\nAccessing Session Records...";
+    const text2 = "Session Records Accessed.\nVerification Pending...";
+
+    const bg = document.getElementById('bg');
+    const topText = document.getElementById('topText');
+    const buttons = document.getElementById('buttons');
+
+    // Step 1: show background for 5s, then fade
     setTimeout(() => {
-      document.body.innerHTML = `
-        <div id="text">
-        Session Records Accessed.
-        Verification Pending...
-        </div>
-      `;
-    }, 1500);
-  }
-}
-
-typeLine();
-</script>
-
+      bg.classList.add('hidden');
+      // Step 2: type first text
+      typeText(topText, text1, 35, () => {
+        // Step 3: hold for 7s, then clear and type second text
+        setTimeout(() => {
+          topText.textContent = '';
+          typeText(topText, text2, 40, () => {
+            // Step 4: reveal buttons
+            setTimeout(() => buttons.classList.add('visible'), 400);
+          });
+        }, 7000);
+      });
+    }, 5000);
+  </script>
 </body>
 </html>

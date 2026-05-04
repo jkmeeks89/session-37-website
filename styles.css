@@ -1,0 +1,212 @@
+html, body {
+  background: #000;
+  color: #39ff14;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+}
+
+.code {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  color: #2a2a2a;
+  font-size: 14px;
+  letter-spacing: 2px;
+  user-select: none;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.home-btn {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  background: transparent;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  padding: 6px 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 10;
+}
+
+.home-btn:hover {
+  background: rgba(57, 255, 20, 0.15);
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  z-index: 5;
+  transition: opacity 1s ease;
+}
+
+.bg-image.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#topText {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: pre-wrap;
+  font-size: 22px;
+  line-height: 1.5;
+  z-index: 6;
+  max-width: 90vw;
+}
+
+#topText.hidden {
+  display: none;
+}
+
+.left-text {
+  padding: 40px 60px;
+  white-space: pre-wrap;
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: 900px;
+}
+
+.center-text {
+  text-align: center;
+  white-space: pre-wrap;
+  font-size: 22px;
+  line-height: 1.5;
+  padding-top: 40px;
+}
+
+.cursor::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.button-row {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.button-row.visible {
+  opacity: 1;
+}
+
+.btn {
+  background: transparent;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  padding: 14px 18px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  min-width: 160px;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: rgba(57, 255, 20, 0.15);
+}
+
+.grid-buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: min(700px, 90vw);
+}
+
+.grid-buttons .btn {
+  width: 100%;
+  min-width: 0;
+  padding: 18px 12px;
+}
+
+.audio-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+audio {
+  width: 100%;
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.below-buttons {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: min(700px, 90vw);
+}
+
+.flash-out {
+  animation: flash4 2s steps(1) forwards;
+}
+
+@keyframes flash4 {
+  0%, 100% { opacity: 1; }
+  12%, 37%, 62%, 87% { opacity: 0; }
+  25%, 50%, 75% { opacity: 1; }
+}
+
+.password-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.password-box input {
+  background: #000;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 12px;
+  width: 220px;
+}
+
+.password-box .err {
+  color: #c00;
+  margin-top: 12px;
+  min-height: 18px;
+}
