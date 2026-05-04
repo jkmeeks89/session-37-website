@@ -46,7 +46,11 @@ button:hover { background:#39ff14; color:black; }
 
 .home { position:absolute; top:20px; right:20px; }
 
-.code { position:absolute; top:20px; right:20px; color:#222; }
+.code { position:absolute; top:20px; right:20px; color:#444; }
+
+/* FONT SIZES */
+.big { font-size:32px; }
+.medium { font-size:20px; }
 </style>
 </head>
 
@@ -55,6 +59,7 @@ button:hover { background:#39ff14; color:black; }
 <!-- HOME -->
 <div id="home" class="screen active">
 <img id="bg" class="bg" src="background1.jpg">
+
 <div id="intro" class="top"></div>
 <div id="mid" class="center"></div>
 
@@ -145,21 +150,23 @@ function type(el, text, speed=20){
   t();
 }
 
-// INTRO TIMING
+// INTRO SEQUENCE
 setTimeout(()=>{
   bg.style.display="none";
-  type(intro,`BLACKTHORNE STATE HOSPITAL
-Forensic Psychiatry Division
 
-Case File: Daniel Stevenson
+  intro.innerHTML = `
+  <div class="big">BLACKTHORNE STATE HOSPITAL</div>
+  <div class="medium">Forensic Psychiatry Division</div>
+  <div class="medium">Case File: Daniel Stevenson</div>
+  <div class="medium">Accessing Session Records...</div>
+  `;
 
-Accessing Session Records...`);
 },5000);
 
 setTimeout(()=>{
   intro.innerHTML="";
   type(mid,`Session Records Accessed.
-Verification Pending...`);
+Verification Pending...`,30);
 },12000);
 
 setTimeout(()=>{
@@ -179,13 +186,51 @@ type(sessionText,`SESSION 37 Primary Case File
 
 SUBJECT: Daniel Stevenson AGE: 34 STATUS: In Custody
 
-EVALUATING PSYCHOLOGIST: Dr. Victor Elm FACILITY: Blackthorne State Hospital DIVISION: Forensic Psychiatry
+EVALUATING PSYCHOLOGIST: Dr. Victor Elm
+FACILITY: Blackthorne State Hospital
+DIVISION: Forensic Psychiatry
 
 CASE SUMMARY:
 
 On March 14th...
 
-(continue your full text here)`);
+On March 14th, Detective Harper Smith along with two officers entered the home of Daniel Stevenson in order to charge him with the murders of his wife, Caroline Stevenson, and their two children, Bradley and Sarah Stevenson.
+
+Upon arrival:
+
+No bodies were recovered
+Daniel Stevenson found in fetal postion beside bathtub
+No signs of forced entry
+No indication of external involvement
+Subject was found on site.
+
+No attempt to flee.
+
+No visible distress.
+
+INITIAL STATEMENT:
+
+“I don’t remember.”
+
+Statement repeated multiple times during intake.
+
+OBSERVATION NOTES:
+
+Subject remains cooperative during sessions
+Displays minimal emotional response when discussing incident
+Demonstrates intermittent disorientation
+Reports auditory experiences involving victims
+Subject insists:
+
+“They’re still here.”
+
+SESSION STATUS:
+
+Session 37 ongoing.
+
+Progress: Inconclusive
+
+Recommendation: Continued evaluation required.`);
 
 // AUDIO
 function play(file){
@@ -201,10 +246,10 @@ function checkPass(){
   }
 }
 
-// RESTRICTED SEQUENCE
+// RESTRICTED SYSTEM
 function runRestricted(){
 
-let seq = [
+let lines = [
 "Initializing secure environment...",
 "Loading kernel modules...",
 "Mounting /dev/sda1 → /secure",
@@ -246,9 +291,9 @@ let seq = [
 
 let i=0;
 function next(){
-  if(i<seq.length){
-    resText.innerHTML += seq[i++]+"\n";
-    setTimeout(next,40);
+  if(i<lines.length){
+    resText.innerHTML += lines[i++]+"\n";
+    setTimeout(next,30);
   } else {
     setTimeout(showFinal,5000);
   }
@@ -262,18 +307,16 @@ resText.innerHTML=`Access Granted
 
 CLEARANCE LEVEL: RESTRICTED
 
-FILE: INTERNAL REVIEW
-
-“Can you still hear them?”
+[Session_38_Audio]
 
 <br><br>
-<button onclick="play('Restricted.mp3')">[Session_38_Audio]</button>`;
+<button onclick="play('Restricted.mp3')">Play Audio</button>`;
 }
 
 // TRANSCRIPTS
 function loadTranscript(n){
   openPage('transView');
-  type(transText,"LOADING SESSION "+n+"...",15);
+  type(transText,"SESSION "+n+" LOADING...",20);
 }
 
 type(transTitle,"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
