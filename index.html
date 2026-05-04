@@ -1,40 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Session 37</title>
+
+<style>
+body {
+  margin:0;
+  background:black;
+  color:#39ff14;
+  font-family:monospace;
+}
+
+.screen {
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:none;
+}
+
+.active { display:block; }
+
+.scroll {
+  overflow-y:auto;
+}
+
+img.bg {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.top { position:absolute; top:20px; width:100%; text-align:center; }
+.center { position:absolute; top:50%; width:100%; text-align:center; transform:translateY(-50%); }
+.left { position:absolute; left:20px; top:20px; white-space:pre-line; max-width:90%; }
+
+.buttons {
+  position:absolute;
+  bottom:30px;
+  width:100%;
+  text-align:center;
+}
+
+button {
+  background:black;
+  color:#39ff14;
+  border:1px solid #39ff14;
+  padding:10px 20px;
+  margin:10px;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#39ff14;
+  color:black;
+}
+
+.home { position:absolute; top:20px; right:20px; }
+
+.code { position:absolute; top:20px; right:20px; color:#555; }
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+<img id="bg" class="bg" src="background1.jpg">
+<div id="intro" class="top"></div>
+<div id="mid" class="center"></div>
+
+<div id="mainBtns" class="buttons" style="display:none;">
+<button onclick="openPage('session')">Session 37</button>
+<button onclick="openPage('audio')">Audio Logs</button>
+<button onclick="openPage('transcripts')">Transcripts</button>
+<button onclick="openPage('password')">Restricted Access</button>
+</div>
+
+<div class="code">3801</div>
+</div>
+
+<!-- SESSION -->
+<div id="session" class="screen scroll">
+<button class="home" onclick="goHome()">Home</button>
+<div id="sessionText" class="left"></div>
+</div>
+
+<!-- AUDIO -->
+<div id="audio" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div class="center">
+
+<button onclick="play('Log_one.mp3')">Stevenson_Audio_01</button><br>
+<button onclick="play('Log_two.mp3')">Stevenson_Audio_02</button><br>
+<button onclick="play('Log_three.mp3')">Stevenson_Audio_03</button><br>
+<button onclick="play('Log_four.mp3')">Stevenson_Audio_04</button>
+
+<br><br>
+
+<button onclick="play('SESSION_01_UPLOADED.wav')">SESSION_01_UPLOADED</button><br>
+<button onclick="play('SESSION_12_UPLOADED.wav')">SESSION_12_UPLOADED</button><br>
+<button onclick="play('SESSION_19_UPLOADED.wav')">SESSION_19_UPLOADED</button><br>
+<button onclick="play('SESSION_37_CRITICAL_UPLOADED.wav')">SESSION_37_CRITICAL_UPLOADED</button><br>
+<button onclick="play('SESSION_37_POST_UPLOADED.wav')">SESSION_37_POST_UPLOADED</button><br>
+<button onclick="play('SESSION_LOCKED_UPLOADED.wav')">SESSION_LOCKED_UPLOADED</button>
+
+</div>
+</div>
+
+<!-- TRANSCRIPTS -->
+<div id="transcripts" class="screen">
+<button class="home" onclick="goHome()">Home</button>
+<div id="transTitle" class="top"></div>
+
+<div class="center">
+<button onclick="openTranscript(1)">Stevenson_Log_01</button>
+<button onclick="openTranscript(2)">Stevenson_Log_02</button>
+<button onclick="openTranscript(3)">Stevenson_Log_03</button>
+<button onclick="openTranscript(4)">Stevenson_Log_04</button>
+</div>
+</div>
+
+<div id="transView" class="screen scroll">
+<button class="home" onclick="openPage('transcripts')">Transcripts</button>
+<div id="transText" class="left"></div>
+</div>
+
+<!-- PASSWORD -->
+<div id="password" class="screen center">
+<input id="pass">
+<br><br>
+<button onclick="checkPass()">Submit</button>
+<button onclick="goHome()">Cancel</button>
+</div>
+
+<!-- RESTRICTED -->
+<div id="restricted" class="screen scroll">
+<button class="home" onclick="goHome()">Home</button>
+<div id="resText" class="left"></div>
+</div>
+
+<audio id="player"></audio>
+
 <script>
 
-// TYPE (supports multi-line timing)
-function typeLines(el, lines, speed=25, lineDelay=400){
-  el.innerHTML = "";
-  let i = 0;
+document.addEventListener("DOMContentLoaded", function(){
+
+const bg = document.getElementById("bg");
+const intro = document.getElementById("intro");
+const mid = document.getElementById("mid");
+const mainBtns = document.getElementById("mainBtns");
+const home = document.getElementById("home");
+const player = document.getElementById("player");
+const pass = document.getElementById("pass");
+const resText = document.getElementById("resText");
+const sessionText = document.getElementById("sessionText");
+const transText = document.getElementById("transText");
+
+function type(el, text, speed=20){
+  el.innerHTML="";
+  let i=0;
+  function t(){
+    if(i<text.length){
+      el.innerHTML+=text[i++];
+      setTimeout(t,speed);
+    }
+  }
+  t();
+}
+
+function typeLines(el, lines){
+  el.innerHTML="";
+  let i=0;
 
   function nextLine(){
-    if(i >= lines.length) return;
+    if(i>=lines.length) return;
 
-    let line = lines[i];
-    let charIndex = 0;
     let lineEl = document.createElement("div");
 
-    // make first line bigger
-    if(i === 0) lineEl.style.fontSize = "34px";
-    else lineEl.style.fontSize = "20px";
+    if(i===0) lineEl.style.fontSize="34px";
+    else lineEl.style.fontSize="20px";
 
     el.appendChild(lineEl);
 
-    function typeChar(){
-      if(charIndex < line.length){
-        lineEl.innerHTML += line[charIndex++];
-        setTimeout(typeChar, speed);
+    let text = lines[i];
+    let c=0;
+
+    function t(){
+      if(c<text.length){
+        lineEl.innerHTML += text[c++];
+        setTimeout(t,20);
       } else {
         i++;
-        setTimeout(nextLine, lineDelay);
+        setTimeout(nextLine,400);
       }
     }
 
-    typeChar();
+    t();
   }
 
   nextLine();
 }
 
-// INTRO FIX
 setTimeout(()=>{
   bg.style.display="none";
 
@@ -56,29 +223,24 @@ setTimeout(()=>{
   mainBtns.style.display="block";
 },17000);
 
-
-// NAV FIX
-function openPage(id){
+window.openPage = function(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function goHome(){
+window.goHome = function(){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   home.classList.add('active');
 }
 
-
-// AUDIO FIX (handles wav/mp3 properly)
-function play(file){
+window.play = function(file){
   player.pause();
-  player.src = file;
+  player.src=file;
   player.load();
   player.play().catch(()=>{});
 }
 
-
-// SESSION 37 (typing + scroll)
+// SESSION TEXT
 const sessionFull = `SESSION 37 Primary Case File
 
 SUBJECT: Daniel Stevenson AGE: 34 STATUS: In Custody
@@ -89,64 +251,35 @@ DIVISION: Forensic Psychiatry
 
 CASE SUMMARY:
 
-On March 14th, Detective Harper Smith along with two officers entered the home of Daniel Stevenson...
-
-(keep your full text here)`;
-
+On March 14th...`;
 
 document.querySelector("[onclick=\"openPage('session')\"]")
 .addEventListener("click",()=>{
-  setTimeout(()=>type(sessionText, sessionFull, 10),100);
+  setTimeout(()=>type(sessionText, sessionFull,10),100);
 });
 
-
-// TRANSCRIPTS FIX
+// TRANSCRIPTS
 const transcripts = {
-1: `SESSION ID: 01 DATE: September 18 TIME: 3:10 PM
-
-SUBJECT: Daniel Stevenson
-INTERVIEWER: Dr. Victor Elm
-
-Dr. Elm: Daniel, do you understand why you're here?
-Daniel: Yes.
-...`,
-2: `SESSION ID: 12 DATE: September 26 TIME: 11:42 AM
-
-Dr. Elm: Last time you mentioned...
-...`,
-3: `SESSION ID: 19 DATE: October 3 TIME: 2:18 PM
-
-Dr. Elm: You said things were getting loud...
-...`,
-4: `SESSION ID: 37 DATE: October 14 TIME: 8:42 PM
-
-Dr. Elm: Daniel, we’re going to revisit...
-...`
+1:`SESSION ID: 01...\n(full text)`,
+2:`SESSION ID: 12...\n(full text)`,
+3:`SESSION ID: 19...\n(full text)`,
+4:`SESSION ID: 37...\n(full text)`
 };
 
-function openTranscript(n){
+window.openTranscript = function(n){
   openPage('transView');
-  setTimeout(()=>type(transText, transcripts[n], 10),100);
+  setTimeout(()=>type(transText, transcripts[n],10),100);
 }
 
-
-// PASSWORD CENTER FIX (force center)
-password.style.display="flex";
-password.style.flexDirection="column";
-password.style.justifyContent="center";
-password.style.alignItems="center";
-
-
-// PASSWORD LOGIC
-function checkPass(){
+// PASSWORD
+window.checkPass = function(){
   if(pass.value==="3801"){
     openPage('restricted');
     runRestricted();
   }
 }
 
-
-// RESTRICTED FIX (adds home button functionality automatically works)
+// RESTRICTED
 function runRestricted(){
 
 let lines = [
@@ -154,20 +287,19 @@ let lines = [
 "Loading kernel modules...",
 "Mounting /dev/sda1 → /secure",
 "Checking permissions...",
-"Permission override detected",
-"Authenticating user...",
-"ACCESS LEVEL: UNKNOWN",
-"Attempting escalation...",
-"Escalation successful"
+"Permission override detected"
 ];
 
 let i=0;
+
 function next(){
   if(i<lines.length){
     resText.innerHTML += lines[i++]+"\n";
     setTimeout(next,25);
   } else {
-    setTimeout(showAccess,5000);
+    setTimeout(()=>{
+      resText.innerHTML="Access Granted";
+    },5000);
   }
 }
 
@@ -175,36 +307,12 @@ resText.innerHTML="";
 next();
 }
 
-function showAccess(){
-resText.innerHTML="Access Granted";
-setTimeout(showFinal,3000);
-}
+type(document.getElementById("transTitle"),
+"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
 
-function showFinal(){
-resText.innerHTML=`CLEARANCE LEVEL: RESTRICTED
-
-[Session_38_Audio]
-
-<br><br>
-<button onclick="play('Restricted.mp3')">Play Audio</button>`;
-}
-
-
-// TYPE fallback
-function type(el, text, speed=20){
-  el.innerHTML="";
-  let i=0;
-  function t(){
-    if(i<text.length){
-      el.innerHTML+=text[i++];
-      setTimeout(t,speed);
-    }
-  }
-  t();
-}
-
-
-// TRANSCRIPT HEADER
-type(transTitle,"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+});
 
 </script>
+
+</body>
+</html>
