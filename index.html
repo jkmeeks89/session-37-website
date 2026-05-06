@@ -18,9 +18,11 @@ body {
   width:100%;
   height:100%;
   display:none;
+  top:0;
+  left:0;
 }
 
-.active { display:block; }
+.screen.active { display:block; }
 
 .scroll {
   overflow-y:auto;
@@ -99,6 +101,60 @@ body::before {
   height:100%;
   background:rgba(0,0,0,0.6);
   z-index:-1;
+}
+  @media (min-width: 768px){
+
+  .audio-layout {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    width:100%;
+    max-width:900px;
+    margin:120px auto;
+  }
+
+  .audio-left, .audio-right {
+    width:45%;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+  }
+
+  #audio .center {
+    position:relative;
+    top:0;
+    left:0;
+    transform:none;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+}
+  @media (max-width: 767px){
+
+  .audio-layout {
+    display:block;
+    width:100%;
+    margin:80px auto;
+    text-align:center;
+  }
+
+  .audio-left, .audio-right {
+    width:100%;
+    align-items:center;
+  }
+
+  .audio-left button,
+  .audio-right button {
+    width:80%;
+  }
+
+  #audio .center {
+    position:relative;
+    top:0;
+    left:0;
+    transform:none;
+  }
 }
 </style>
 </head>
