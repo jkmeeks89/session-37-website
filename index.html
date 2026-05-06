@@ -22,7 +22,7 @@ body {
   left:0;
 }
 
-.screen.active { display:block; }
+.active { display:block; }
 
 .scroll {
   overflow-y:auto;
@@ -36,6 +36,15 @@ img.bg {
 
 .top { position:absolute; top:20px; width:100%; text-align:center; }
 .center { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; width:100%; line-height:1.6; }
+@media (max-width: 768px){
+  .center {
+    position:relative;
+    top:0;
+    left:0;
+    transform:none;
+    margin-top:80px;
+  }
+}
 intro { letter-spacing:2px; }
 .left { position:absolute; left:20px; top:20px; white-space:pre-line; max-width:90%; font-size:18px; line-height:1.5; }
 
