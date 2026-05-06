@@ -130,21 +130,24 @@ body::before {
 <!-- AUDIO -->
 <div id="audio" class="screen">
 <button class="home" onclick="goHome()">Home</button>
-<div class="center">
+<div class="audio-layout">
 
-<button onclick="play('Log_one.mp3')">Stevenson_Audio_01</button><br>
-<button onclick="play('Log_two.mp3')">Stevenson_Audio_02</button><br>
-<button onclick="play('Log_three.mp3')">Stevenson_Audio_03</button><br>
-<button onclick="play('Log_four.mp3')">Stevenson_Audio_04</button>
+  <!-- LEFT SIDE -->
+  <div class="audio-left">
+    <button onclick="play('Log_one.mp3')">Stevenson_Audio_01</button>
+    <button onclick="play('Log_two.mp3')">Stevenson_Audio_02</button>
+    <button onclick="play('Log_three.mp3')">Stevenson_Audio_03</button>
+    <button onclick="play('Log_four.mp3')">Stevenson_Audio_04</button>
+  </div>
 
-<br><br>
-
-<button onclick="play('SESSION_01_UPLOADED.wav')">SESSION_01_UPLOADED</button><br>
-<button onclick="play('SESSION_12_UPLOADED.wav')">SESSION_12_UPLOADED</button><br>
-<button onclick="play('SESSION_19_UPLOADED.wav')">SESSION_19_UPLOADED</button><br>
-<button onclick="play('SESSION_37_CRITICAL_UPLOADED.wav')">SESSION_37_CRITICAL_UPLOADED</button><br>
-<button onclick="play('SESSION_37_POST_UPLOADED.wav')">SESSION_37_POST_UPLOADED</button><br>
-<button onclick="play('SESSION_LOCKED_UPLOADED.wav')">SESSION_LOCKED_UPLOADED</button>
+  <!-- RIGHT SIDE -->
+  <div class="audio-right">
+    <button onclick="play('SESSION_01_UPLOADED.wav')">SESSION_01_UPLOADED</button>
+    <button onclick="play('SESSION_12_UPLOADED.wav')">SESSION_12_UPLOADED</button>
+    <button onclick="play('SESSION_19_UPLOADED.wav')">SESSION_19_UPLOADED</button>
+    <button onclick="play('SESSION_37_CRITICAL_UPLOADED.wav')">SESSION_37_CRITICAL_UPLOADED</button>
+    <button onclick="play('SESSION_37_POST_UPLOADED.wav')">SESSION_37_POST_UPLOADED</button>
+    <button onclick="play('SESSION_LOCKED_UPLOADED.wav')">SESSION_LOCKED_UPLOADED</button>
 
 </div>
 </div>
