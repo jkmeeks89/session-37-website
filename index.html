@@ -262,6 +262,8 @@ body::before {
 
 document.addEventListener("DOMContentLoaded", function(){
 
+try {
+
 const bg = document.getElementById("bg");
 const intro = document.getElementById("intro");
 const mid = document.getElementById("mid");
@@ -270,6 +272,7 @@ const home = document.getElementById("home");
 const player = document.getElementById("player");
 const pass = document.getElementById("pass");
 const resText = document.getElementById("resText");
+if(!resText) return;
 const sessionText = document.getElementById("sessionText");
 const transText = document.getElementById("transText");
 
@@ -901,8 +904,15 @@ Subject only asks:
 `;
 }
 
-type(document.getElementById("transTitle"),
-"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+const transTitleEl = document.getElementById("transTitle");
+if(transTitleEl){
+  type(transTitleEl,
+  "TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+}
+
+} catch(e){
+  console.error("Script error:", e);
+}
 
 });
 
