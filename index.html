@@ -270,6 +270,7 @@ setTimeout(()=>{
 },17000);
 
 window.openPage = function(id){
+ isTyping = false;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
@@ -645,13 +646,16 @@ window.openTranscript = function(n){
   let i = 0;
 
   function typeSafe(){
-    if(i < text.length){
-      transText.innerHTML += text[i++];
-      setTimeout(typeSafe, 10);
-    } else {
-      isTyping = false;
-    }
+
+    if(!document.getElementById("transView").classList.contains("active")) return;
+
+  if(i < text.length){
+    transText.innerHTML += text[i++];
+    setTimeout(typeSafe, 10);
+  } else {
+    isTyping = false;
   }
+}
 
   typeSafe();
 }
