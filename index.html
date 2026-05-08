@@ -375,7 +375,7 @@ t();
 
 /* INTRO */
 setTimeout(()=>{
-type(intro,
+type(document.getElementById('intro')
 "BLACKTHORNE STATE HOSPITAL\n\nForensic Psychiatry Division\nCase File: Daniel Stevenson\nAccessing Session Records...",
 20,()=>{
 
@@ -394,7 +394,7 @@ setTimeout(()=>{
 intro.classList.remove("fade");
 type(intro,
 "Session Records Accessed.\nVerification Pending...",20,()=>{
-mainBtns.style.display="block";
+document.getElementById('mainBtns').style.display="block";
 });
 },1500);
 },7000);
@@ -452,7 +452,7 @@ Recommendation: Continued evaluation required.`,10);
 }
 
 /* TRANS HEADER */
-type(transHeader,"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+type(document.getElementById('transHeader'),"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
 
 /* TRANSCRIPTS */
 const transcripts={
