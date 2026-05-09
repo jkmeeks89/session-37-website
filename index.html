@@ -1,421 +1,357 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blackthorne System</title>
 
 <style>
-body{
-  margin:0;
-  font-family:monospace;
-  color:#39ff14;
-  background:black;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* BACKGROUND IMAGE FULL SCREEN NO CROP */
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:black;
+font-family:monospace;
+color:#39ff14;
+}
+
 body::before{
-  content:"";
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:url("background1.jpg") no-repeat center center;
-  background-size:contain;
-  z-index:-1;
+content:"";
+position:fixed;
+inset:0;
+background:url('background1.jpg') no-repeat center center;
+background-size:contain;
+z-index:-5;
+background-color:black;
 }
 
-/* SCREEN SYSTEM */
 .screen{
-  display:none;
-  width:100%;
-  height:100vh;
-  overflow:auto;
+display:none;
+position:absolute;
+inset:0;
+width:100%;
+height:100dvh;
+overflow-y:auto;
+padding:20px;
 }
-.active{ display:block; }
 
-/* TEXT POSITIONS */
+.active{
+display:block;
+}
+
 .center{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  width:90%;
-}
-.left{
-  position:absolute;
-  top:20px;
-  left:20px;
-  right:20px;
-  white-space:pre-line;
-  line-height:1.5;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+width:90%;
+line-height:1.7;
+font-size:clamp(18px,2vw,30px);
 }
 
-/* BUTTONS */
-.buttons{
-  position:absolute;
-  bottom:20px;
-  width:100%;
-  text-align:center;
-}
-button{
-  background:black;
-  color:#39ff14;
-  border:1px solid #39ff14;
-  padding:16px 26px;
-  margin:8px;
-  font-size:16px;
-  cursor:pointer;
-}
-button:hover{
-  background:#39ff14;
-  color:black;
+.leftText{
+white-space:pre-wrap;
+line-height:1.7;
+font-size:clamp(14px,1.5vw,20px);
+padding-top:60px;
+padding-bottom:100px;
 }
 
-/* TOP RIGHT */
 .topRight{
-  position:absolute;
-  top:10px;
-  right:15px;
-  color:#777;
-}
-.home{
-  position:absolute;
-  top:10px;
-  right:15px;
-  cursor:pointer;
+position:absolute;
+top:12px;
+right:18px;
+color:#777;
+font-size:14px;
 }
 
-/* GRID */
+.homeBtn{
+position:absolute;
+top:12px;
+right:18px;
+z-index:50;
+}
+
+.bottomButtons{
+position:absolute;
+bottom:30px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+justify-content:center;
+width:95%;
+}
+
+button{
+background:black;
+color:#39ff14;
+border:1px solid #39ff14;
+padding:14px 24px;
+font-size:16px;
+cursor:pointer;
+font-family:monospace;
+min-width:180px;
+}
+
+button:hover{
+background:#39ff14;
+color:black;
+}
+
 .grid{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+max-width:900px;
+margin:120px auto;
+width:100%;
 }
 
-/* PASSWORD */
-#passwordBox{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
+@media(max-width:700px){
+.grid{
+grid-template-columns:1fr;
 }
-input{
-  background:black;
-  color:#39ff14;
-  border:1px solid #39ff14;
-  padding:10px;
+
+button{
+width:100%;
 }
+}
+
 .fade{
-  opacity:0;
-  transition:1.5s;
+animation:fadeOut 1.5s forwards;
 }
+
+@keyframes fadeOut{
+from{opacity:1;}
+to{opacity:0;}
+}
+
 .glitch{
-  position:relative;
-  animation:glitch 0.2s infinite;
+animation:glitch .15s infinite;
 }
 
 @keyframes glitch{
-  0%{text-shadow:2px 0 red,-2px 0 blue;}
-  20%{text-shadow:-2px 0 red,2px 0 blue;}
-  40%{text-shadow:2px 2px red,-2px -2px blue;}
-  60%{text-shadow:-2px -2px red,2px 2px blue;}
-  80%{text-shadow:2px 0 red,-2px 0 blue;}
-  100%{text-shadow:none;}
+0%{transform:translate(0px,0px);}
+25%{transform:translate(2px,-1px);}
+50%{transform:translate(-2px,1px);}
+75%{transform:translate(1px,2px);}
+100%{transform:translate(0px,0px);}
 }
 
-/* SCREEN FLASH */
 .flash{
-  animation:flash 0.2s;
+animation:flash .2s;
 }
 
 @keyframes flash{
-  0%{background:white;}
-  100%{background:transparent;}
+0%{background:white;}
+100%{background:transparent;}
 }
 
-/* FLICKER */
-body.flicker{
-  animation:flicker 0.1s infinite;
+#passwordBox{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
 }
 
-@keyframes flicker{
-  0%{opacity:1;}
-  50%{opacity:0.85;}
-  100%{opacity:1;}
+input{
+background:black;
+color:#39ff14;
+border:1px solid #39ff14;
+padding:12px;
+font-size:18px;
+margin-bottom:15px;
+width:250px;
+font-family:monospace;
 }
 
+.casePlaceholder{
+margin-top:120px;
+line-height:2;
+font-size:18px;
+}
+
+.audioPlayer{
+position:fixed;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+max-width:700px;
+}
 </style>
-
 </head>
-
 <body>
 
-<!-- HOME -->
+<audio id="player" class="audioPlayer" controls></audio>
 
 <div id="home" class="screen active">
 <div class="topRight">3801</div>
 <div id="intro" class="center"></div>
 
-<div id="mainBtns" class="buttons" style="display:none;">
+<div id="mainButtons" class="bottomButtons" style="display:none;">
 <button onclick="loadSession()">Session 37</button>
-<button onclick="openPage('audio')">Audio Logs</button>
-<button onclick="openPage('transcripts')">Transcripts</button>
-<button onclick="openPage('files')">Case Files</button>
+<button onclick="openPage('audioPage')">Audio Logs</button>
+<button onclick="openPage('transcriptsPage')">Transcripts</button>
+<button onclick="openPage('filesPage')">Case Files</button>
 <button onclick="showPassword()">Restricted Access</button>
 </div>
 </div>
 
-<!-- SESSION -->
-
-<div id="session" class="screen">
-<div class="home" onclick="goHome()">Home</div>
-<div id="sessionText" class="left"></div>
+<div id="sessionPage" class="screen">
+<button class="homeBtn" onclick="goHome()">Home</button>
+<div id="sessionText" class="leftText"></div>
 </div>
 
-<!-- AUDIO -->
-
-<div id="audio" class="screen">
-<div class="home" onclick="goHome()">Home</div>
+<div id="audioPage" class="screen">
+<button class="homeBtn" onclick="goHome()">Home</button>
 
 <div class="grid">
 <div>
-<button onclick="play('Log_one.mp3')">Stevenson_Audio_01</button>
-<button onclick="play('Log_two.mp3')">Stevenson_Audio_02</button>
-<button onclick="play('SESSION_01_UPLOADED.m4a')">SESSION_01</button>
-<button onclick="play('SESSION_12_UPLOADED.m4a')">SESSION_12</button>
-<button onclick="play('SESSION_19_UPLOADED.m4a')">SESSION_19</button>
+<button onclick="playAudio('Log_one.mp3')">Stevenson_Audio_01</button><br><br>
+<button onclick="playAudio('Log_two.mp3')">Stevenson_Audio_02</button><br><br>
+<button onclick="playAudio('SESSION_01_UPLOADED.m4a')">SESSION_01_UPLOADED</button><br><br>
+<button onclick="playAudio('SESSION_12_UPLOADED.m4a')">SESSION_12_UPLOADED</button><br><br>
+<button onclick="playAudio('SESSION_19_UPLOADED.m4a')">SESSION_19_UPLOADED</button>
 </div>
 
 <div>
-<button onclick="play('Log_three.mp3')">Stevenson_Audio_03</button>
-<button onclick="play('Log_four.mp3')">Stevenson_Audio_04</button>
-<button onclick="play('SESSION_37_CRITICAL_UPLOADED.m4a')">SESSION_37_CRITICAL</button>
-<button onclick="play('SESSION_37_POST_UPLOADED.m4a')">SESSION_37_POST</button>
-<button onclick="play('SESSION_LOCKED_UPLOADED.m4a')">SESSION_LOCKED</button>
+<button onclick="playAudio('Log_three.mp3')">Stevenson_Audio_03</button><br><br>
+<button onclick="playAudio('Log_four.mp3')">Stevenson_Audio_04</button><br><br>
+<button onclick="playAudio('SESSION_37_CRITICAL_UPLOADED.m4a')">SESSION_37_CRITICAL_UPLOADED</button><br><br>
+<button onclick="playAudio('SESSION_37_POST_UPLOADED.m4a')">SESSION_37_POST_UPLOADED</button><br><br>
+<button onclick="playAudio('SESSION_LOCKED_UPLOADED.m4a')">SESSION_LOCKED_UPLOADED</button>
 </div>
 </div>
 </div>
 
-<!-- TRANSCRIPTS -->
+<div id="transcriptsPage" class="screen">
+<button class="homeBtn" onclick="goHome()">Home</button>
+<div id="transHeader" class="center" style="top:100px;"></div>
 
-<div id="transcripts" class="screen">
-  <div class="home" onclick="goHome()">Home</div>
-  <div id="transHeader" class="center"></div>
-
-  <div class="grid">
-    <button onclick="openTranscript(1)">Stevenson_Log_01</button>
-    <button onclick="openTranscript(2)">Stevenson_Log_02</button>
-    <button onclick="openTranscript(3)">Stevenson_Log_03</button>
-    <button onclick="openTranscript(4)">Stevenson_Log_04</button>
-  </div>
-</div>
-
-<!-- TRANS VIEW -->
-
-<div id="transView" class="screen">
-<div class="home" onclick="openPage('transcripts')">Transcripts</div>
-<div id="transText" class="left"></div>
-</div>
-
-<!-- FILES -->
-
-<div id="files" class="screen">
-<div class="home" onclick="goHome()">Home</div>
-<div class="center">
-<h2>CASE FILE ARCHIVE</h2>
-<p>[Documents Coming Soon]</p>
+<div class="grid" style="margin-top:220px;">
+<button onclick="openTranscript(1)">Stevenson_Log_01</button>
+<button onclick="openTranscript(3)">Stevenson_Log_03</button>
+<button onclick="openTranscript(2)">Stevenson_Log_02</button>
+<button onclick="openTranscript(4)">Stevenson_Log_04</button>
 </div>
 </div>
 
-<!-- PASSWORD -->
+<div id="transcriptViewer" class="screen">
+<button class="homeBtn" onclick="openPage('transcriptsPage')">Transcripts</button>
+<div id="transcriptText" class="leftText"></div>
+</div>
 
-<div id="password" class="screen">
+<div id="filesPage" class="screen">
+<button class="homeBtn" onclick="goHome()">Home</button>
+<div class="casePlaceholder">
+<h1>CASE FILE ARCHIVE</h1>
+<br>
+<p>Documents Coming Soon...</p>
+<p>Psychological Reports Pending Upload...</p>
+<p>Autopsy Records Pending...</p>
+<p>Scene Documentation Pending...</p>
+</div>
+</div>
+
+<div id="passwordPage" class="screen">
 <div id="passwordBox">
-<input id="pass"><br><br>
-<button onclick="checkPass()">Submit</button>
+<input type="password" id="passInput" placeholder="ENTER PASSWORD">
+<br>
+<button onclick="checkPassword()">Submit</button>
 <button onclick="goHome()">Cancel</button>
 </div>
 </div>
 
-<!-- RESTRICTED -->
-
-<div id="restricted" class="screen">
-<div class="home" onclick="goHome()">Home</div>
-<div id="resText" class="left"></div>
+<div id="restrictedPage" class="screen">
+<button class="homeBtn" onclick="goHome()">Home</button>
+<div id="restrictedText" class="leftText"></div>
 </div>
 
-<audio id="player"></audio>
-
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-console.log("SCRIPT STARTED");
-const intro = document.getElementById("intro");
-const mainBtns = document.getElementById("mainBtns");
-const transHeader = document.getElementById("transHeader");
-const transText = document.getElementById("transText");
-const sessionText = document.getElementById("sessionText");
-const resText = document.getElementById("resText");
-const pass = document.getElementById("pass");
+const player = document.getElementById('player');
 
-let audioCtx;
-let sourceNode;
-let gainNode;
-let distortionNode;
-
-function initAudio(){
-  if(!audioCtx){
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-}
-
-function createDistortion(amount=50){
-  let curve = new Float32Array(44100);
-  let k = amount;
-  let deg = Math.PI / 180;
-
-  for(let i=0;i<44100;i++){
-    let x = i*2/44100-1;
-    curve[i]=(3+k)*x*20*deg/(Math.PI+k*Math.abs(x));
-  }
-  return curve;
-}
-
-/* NAV */
 function openPage(id){
-
-  document.body.classList.add("flash");
-glitchAudio();
-  
-  setTimeout(()=>{
-    document.body.classList.remove("flash");
-  },150);
-
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-function goHome(){ openPage('home'); }
-
-/* AUDIO */
-function play(file){
-
-  initAudio();
-
-  const audio = document.getElementById('player');
-  audio.src = file;
-  audio.load();
-
-  if(sourceNode){
-    sourceNode.disconnect();
-  }
-  
-
-  sourceNode = audioCtx.createMediaElementSource(audio);
-
-  gainNode = audioCtx.createGain();
-  distortionNode = audioCtx.createWaveShaper();
-
-  distortionNode.curve = createDistortion(0);
-  distortionNode.oversample = '4x';
-
-  sourceNode.connect(distortionNode);
-  distortionNode.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-
-  audio.play().catch(()=>{});
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+window.scrollTo(0,0);
 }
 
-function glitchAudio(){
-
-  if(!distortionNode) return;
-
-  distortionNode.curve = createDistortion(400);
-  gainNode.gain.value = 0.6;
-
-  setTimeout(()=>{
-    distortionNode.curve = createDistortion(0);
-    gainNode.gain.value = 1;
-  },200);
+function goHome(){
+openPage('home');
 }
 
-function staticBurst(){
-
-  if(!audioCtx) return;
-
-  let bufferSize = audioCtx.sampleRate * 0.2;
-  let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  let data = buffer.getChannelData(0);
-
-  for(let i=0;i<bufferSize;i++){
-    data[i] = Math.random()*2-1;
-  }
-
-  let noise = audioCtx.createBufferSource();
-  noise.buffer = buffer;
-
-  let noiseGain = audioCtx.createGain();
-  noiseGain.gain.value = 0.2;
-
-  noise.connect(noiseGain);
-  noiseGain.connect(audioCtx.destination);
-
-  noise.start();
+function playAudio(file){
+player.src=file;
+player.play();
 }
 
-/* TYPE */
-function type(el,text,speed=20,cb){
+function typeText(el,text,speed=20,callback){
+el.innerHTML='';
 let i=0;
-el.innerHTML="";
-function t(){
+
+function typing(){
 if(i<text.length){
-el.innerHTML+=text[i++];
-setTimeout(t,speed);
-}else if(cb){cb();}
+el.innerHTML += text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}else if(callback){
+callback();
 }
-t();
 }
 
-/* INTRO */
+typing();
+}
+
 setTimeout(()=>{
-type(
+
+typeText(
 document.getElementById('intro'),
-"BLACKTHORNE STATE HOSPITAL\n\nForensic Psychiatry Division\nCase File: Daniel Stevenson\nAccessing Session Records...",
+'BLACKTHORNE STATE HOSPITAL\nForensic Psychiatry Division\nCase File: Daniel Stevenson\nAccessing Session Records...',
 20,
 ()=>{
 
-  intro.classList.add("glitch");
-
-glitchAudio();
-staticBurst();
-
-  setTimeout(()=>{
-    intro.classList.remove("glitch");
-  },1200);
-
-  setTimeout(()=>{
-intro.classList.add("fade");
 setTimeout(()=>{
-intro.classList.remove("fade");
-type(intro,
-"Session Records Accessed.\nVerification Pending...",20,()=>{
-document.getElementById('mainBtns').style.display="block";
-});
+const intro=document.getElementById('intro');
+intro.classList.add('fade');
+
+setTimeout(()=>{
+intro.classList.remove('fade');
+
+typeText(
+intro,
+'Session Records Accessed.\nVerification Pending...',
+20,
+()=>{
+document.getElementById('mainButtons').style.display='flex';
+}
+);
+
 },1500);
+
 },7000);
-});
+
+}
+);
+
 },3000);
 
-/* SESSION */
 function loadSession(){
-openPage('session');
-type(sessionText,`SESSION 37 Primary Case File
+openPage('sessionPage');
+
+typeText(
+document.getElementById('sessionText'),
+`SESSION 37 Primary Case File
 
 SUBJECT: Daniel Stevenson AGE: 34 STATUS: In Custody
 
@@ -459,96 +395,377 @@ Session 37 ongoing.
 
 Progress: Inconclusive
 
-Recommendation: Continued evaluation required.`,10);
+Recommendation: Continued evaluation required.`,
+5
+);
 }
 
-/* TRANS HEADER */
-type(document.getElementById('transHeader'),"TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation");
+const transcripts={
+1:`SESSION ID: 01 DATE: September 18 TIME: 3:10 PM
 
-/* TRANSCRIPTS */
+SUBJECT: Daniel Stevenson INTERVIEWER: Dr. Victor Elm
 
-function openTranscript(n){
-openPage('transView');
-type(transText,transcripts[n],10);
+Dr. Elm: Daniel, do you understand why you're here?
+
+Daniel: Yes.
+
+Dr. Elm: Can you explain it in your own words?
+
+Daniel: Something happened. There was an incident.
+
+Dr. Elm: What kind of incident?
+
+Daniel: I don’t… I don’t remember all of it clearly.
+
+Dr. Elm: That’s okay. Start with what you do remember.
+
+Daniel: There was a child.
+
+[Pause — 6 seconds]
+
+Dr. Elm: Go on.
+
+Daniel: She wasn’t supposed to be there.
+
+Dr. Elm: Where?
+
+Daniel: [INAUDIBLE]
+
+Dr. Elm: Daniel?
+
+Daniel: It doesn’t matter.
+
+Dr. Elm: Why not?
+
+Daniel: Because that’s not what this is about.
+
+[Pause — 4 seconds]
+
+Dr. Elm: What is this about?
+
+Daniel: I think something got confused.
+
+Dr. Elm: Confused how?
+
+Daniel: People saw something they didn’t understand.
+
+Dr. Elm: Who saw?
+
+Daniel: My family.
+
+Dr. Elm: Your wife and children?
+
+Daniel: Yes.
+
+Dr. Elm: And what happened after that?
+
+Daniel: I don’t remember clearly.
+
+[NOTE: Subject maintains steady tone. No visible distress.]`,
+
+2:`SESSION ID: 12 DATE: September 26 TIME: 11:42 AM
+
+SUBJECT: Daniel Stevenson INTERVIEWER: Dr. Victor Elm
+
+Dr. Elm: Last time you mentioned your family witnessing something. Do you remember more now?
+
+Daniel: Pieces.
+
+Dr. Elm: Let’s go through it slowly.
+
+Daniel: They came in too early.
+
+Dr. Elm: Into what?
+
+Daniel: The room.
+
+Dr. Elm: Which room?
+
+Daniel: [INAUDIBLE]
+
+Dr. Elm: You can say it.
+
+Daniel: I’d rather not.
+
+Dr. Elm: Why?
+
+Daniel: Because it makes it sound worse than it was.
+
+[Pause — 5 seconds]
+
+Dr. Elm: What did they see?
+
+Daniel: The girl.
+
+Dr. Elm: Doing what?
+
+Daniel: Nothing.
+
+Dr. Elm: Daniel—
+
+Daniel: She wasn’t doing anything.
+
+[Pause — 3 seconds]
+
+Dr. Elm: What was your family’s reaction?
+
+Daniel: They were scared.
+
+Dr. Elm: Of you?
+
+Daniel: I don’t know.
+
+Dr. Elm: You said before they “didn’t understand.” What didn’t they understand?
+
+Daniel: That it wasn’t what it looked like.
+
+Dr. Elm: And what did it look like?
+
+Daniel: [REDACTED]
+
+[Pause — 8 seconds]
+
+Dr. Elm: What happened next?
+
+Daniel: I told them to stop.
+
+Dr. Elm: Stop what?
+
+Daniel: Talking. Crying. Moving.
+
+Dr. Elm: Why?
+
+Daniel: Because it was getting loud.
+
+[NOTE: Subject shows increased agitation when discussing auditory elements.]`,
+
+3:`SESSION ID: 19 DATE: October 3 TIME: 2:18 PM
+
+SUBJECT: Daniel Stevenson INTERVIEWER: Dr. Victor Elm
+
+Dr. Elm: You said things were “getting loud.” Can you explain that?
+
+Daniel: It wasn’t loud like yelling.
+
+Dr. Elm: Then how?
+
+Daniel: It was constant.
+
+Dr. Elm: What was?
+
+Daniel: The sound.
+
+Dr. Elm: What sound?
+
+Daniel: Crying.
+
+[Pause — 4 seconds]
+
+Dr. Elm: From who?
+
+Daniel: All of them.
+
+Dr. Elm: Your children?
+
+Daniel: Yes.
+
+Dr. Elm: And your wife?
+
+Daniel: Yes.
+
+Dr. Elm: What did you do?
+
+Daniel: I tried to calm them down.
+
+Dr. Elm: How?
+
+Daniel: I told them everything was fine.
+
+Dr. Elm: Was it?
+
+Daniel: Yes.
+
+[Pause — 6 seconds]
+
+Dr. Elm: Daniel.
+
+Daniel: It was supposed to be.
+
+Dr. Elm: What happened after you tried to calm them?
+
+Daniel: [INAUDIBLE]
+
+Dr. Elm: Can you repeat that?
+
+Daniel: I don’t want to.
+
+Dr. Elm: Why not?
+
+Daniel: Because you’ll hear it wrong.
+
+Dr. Elm: Try anyway.
+
+Daniel: [REDACTED]
+
+[Pause — 10 seconds]
+
+Dr. Elm: Did anyone try to leave?
+
+Daniel: No.
+
+Dr. Elm: Are you sure?
+
+Daniel: Yes.
+
+[NOTE: Audio irregularities reported during this segment. Not present during live session.]`,
+
+4:`SESSION ID: 37 DATE: October 14 TIME: 8:42 PM
+
+SUBJECT: Daniel Stevenson INTERVIEWER: Dr. Victor Elm
+
+Dr. Elm: Daniel, we’re going to revisit the events one more time.
+
+[Pause — 3 seconds]
+
+Dr. Elm: Do you understand?
+
+Daniel: Yes.
+
+Dr. Elm: What happened that night?
+
+[Pause — 9 seconds]
+
+Daniel: They saw.
+
+Dr. Elm: Who?
+
+Daniel: All of them.
+
+Dr. Elm: And then?
+
+Daniel: They wouldn’t stop.
+
+Dr. Elm: Stop what?
+
+Daniel: Looking at me.
+
+[Pause — 5 seconds]
+
+Dr. Elm: What did you do?
+
+Daniel: I fixed it.
+
+Dr. Elm: How?
+
+[Pause — 12 seconds]
+
+Daniel: I made it quiet.
+
+[Silence — 14 seconds]
+
+Dr. Elm: Daniel… what does that mean?
+
+Daniel: It means it stopped.
+
+Dr. Elm: What stopped?
+
+Daniel: Everything.
+
+[Pause — 6 seconds]
+
+Dr. Elm: Do you regret what happened?
+
+Daniel: I don’t know.
+
+Dr. Elm: Do you remember it clearly now?
+
+Daniel: Yes.
+
+Dr. Elm: And?
+
+[Pause — 11 seconds]
+
+Daniel: It doesn’t sound the same when I say it out loud.
+
+Dr. Elm: What doesn’t?
+
+Daniel: The truth.
+
+[NOTE: Subject no longer disputes involvement. Emotional response minimal.]`
+};
+
+setTimeout(()=>{
+typeText(
+document.getElementById('transHeader'),
+'TRANSCRIPT ARCHIVE\nCase File: Daniel Reeves\nStatus: Active Evaluation',
+20
+);
+},1000);
+
+function openTranscript(id){
+openPage('transcriptViewer');
+typeText(document.getElementById('transcriptText'),transcripts[id],5);
 }
 
-/* PASSWORD */
-function showPassword(){ openPage('password'); }
-function checkPass(){
-if(pass.value==="3801"){
+function showPassword(){
+openPage('passwordPage');
+}
+
+function checkPassword(){
+const pass=document.getElementById('passInput').value;
+
+if(pass==='3801'){
 runRestricted();
-}
-}
-
-/* RESTRICTED */
-function runRestricted(){
-openPage('restricted');
-document.body.classList.add("flicker");
-
-setTimeout(()=>{
-  document.body.classList.remove("flicker");
-},4000);
-let lines=[
-"Initializing secure environment...", 
-"Loading kernel modules...", 
-"Mounting /dev/sda1 → /secure", 
-"Checking permissions...", 
-"Permission override detected", 
-"Authenticating user...", 
-"ACCESS LEVEL: UNKNOWN", 
-"Attempting escalation...", 
-"Escalation successful", 
-"Bypassing audit logs...", 
-"Injecting session key...", 
-"Key accepted", 
-"Accessing internal directories...", 
-"cd /var/restricted/", 
-"ls -la", 
-"-rw-r--r-- session_log_12.dat", 
-"-rw-r--r-- session_log_19.dat", 
-"-rw-r--r-- session_log_37.dat", 
-"-rw-r--r-- session_log_38.dat", 
-"Opening file: session_log_37.dat", 
-"ERROR: file integrity compromised", 
-"Retrying...", 
-"Opening file: session_log_37.dat", 
-"WARNING: unauthorized trace detected", 
-"Continuing anyway...", 
-"Extracting data stream...", 
-"Decryption failed", 
-"Applying fallback method...", 
-"Partial reconstruction complete", 
-">>> anomaly detected <<<", 
-">>> anomaly detected <<<", 
-">>> anomaly detected <<<", 
-"buffer overflow...", 
-"memory corruption detected", 
-"attempting recovery...", 
-"attempting recovery...", 
-"FAILED", 
-"Preparing display buffer..."
-];
-let i=0;
-
-function next(){
-if(i<lines.length){
-resText.innerHTML+=lines[i++]+"\\n";
-setTimeout(next,40);
 }else{
-setTimeout(()=>{
-resText.innerHTML="Access Granted";
-setTimeout(()=>{
-  document.body.classList.add("flash");
-  setTimeout(()=>document.body.classList.remove("flash"),100);
-},500);
-resText.classList.add("glitch");
-glitchAudio();
-staticBurst();
+alert('ACCESS DENIED');
+}
+}
 
-setTimeout(()=>{
-  resText.classList.remove("glitch");
-},1500);
-resText.innerHTML=`CLEARANCE LEVEL: RESTRICTED
+function runRestricted(){
+openPage('restrictedPage');
+
+const el=document.getElementById('restrictedText');
+
+const boot=`Initializing secure environment...
+Loading kernel modules...
+Mounting /dev/sda1 → /secure
+Checking permissions...
+Permission override detected
+Authenticating user...
+ACCESS LEVEL: UNKNOWN
+Attempting escalation...
+Escalation successful
+Bypassing audit logs...
+Injecting session key...
+Key accepted
+Accessing internal directories...
+cd /var/restricted/
+ls -la
+-rw-r--r-- session_log_12.dat
+-rw-r--r-- session_log_19.dat
+-rw-r--r-- session_log_37.dat
+-rw-r--r-- session_log_38.dat
+Opening file: session_log_37.dat
+ERROR: file integrity compromised
+Retrying...
+Opening file: session_log_37.dat
+WARNING: unauthorized trace detected
+Continuing anyway...
+Extracting data stream...
+Decryption failed
+Applying fallback method...
+Partial reconstruction complete
+>>> anomaly detected <<<
+>>> anomaly detected <<<
+>>> anomaly detected <<<
+buffer overflow...
+memory corruption detected
+attempting recovery...
+attempting recovery...
+FAILED
+Preparing display buffer...`;
+
+const restricted=`CLEARANCE LEVEL: RESTRICTED
 
 FILE: INTERNAL REVIEW SUBJECT: Daniel Stevenson AUTHORIZED PERSONNEL ONLY
 
@@ -607,23 +824,53 @@ Subject only asks:
 
 
 
-
-
-
-
 [Audio_File_Detected]
-[Session_38_Audio]
+[Session_38_Audio]`;
 
-<button onclick="play('Restricted.mp3')">Play Audio</button>`;
+el.innerHTML='';
 
-},3000);
+let lines=boot.split('\n');
+let i=0;
 
-next();
+function nextLine(){
+if(i<lines.length){
+el.innerHTML += lines[i] + '\n';
+i++;
+setTimeout(nextLine,40);
+}else{
+setTimeout(()=>{
+el.innerHTML='Access Granted';
+
+setTimeout(()=>{
+
+typeText(el,restricted,5,()=>{
+
+setTimeout(()=>{
+for(let x=0;x<4;x++){
+setTimeout(()=>{
+document.body.classList.add('flash');
+setTimeout(()=>{
+document.body.classList.remove('flash');
+},100);
+},x*300);
 }
+
+setTimeout(()=>{
+el.innerHTML=`[Audio_File_Detected]\n\n[Session_38_Audio]\n\n<button onclick="playAudio('Restricted.mp3')">Play Audio</button>`;
+},1800);
+
+},30000);
 
 });
 
-</script>
+},3000);
 
+},5000);
+}
+}
+
+nextLine();
+}
+</script>
 </body>
 </html>
