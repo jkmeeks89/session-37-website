@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +26,7 @@ body::before{
 content:"";
 position:fixed;
 inset:0;
-background:url('background1.jpg') no-repeat center center;
+background:url('logo.png') no-repeat center center;
 background-size:contain;
 z-index:-5;
 background-color:black;
@@ -193,7 +194,7 @@ max-width:700px;
 </head>
 <body>
 
-<audio id="player" class="audioPlayer" controls></audio>
+<audio id="player" class="audioPlayer" controls style="display:none;"></audio>
 
 <div id="home" class="screen active">
 <div class="topRight">3801</div>
@@ -292,6 +293,7 @@ openPage('home');
 }
 
 function playAudio(file){
+player.style.display='block';
 player.src=file;
 player.play();
 }
@@ -874,3 +876,4 @@ nextLine();
 </script>
 </body>
 </html>
+```
