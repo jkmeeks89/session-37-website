@@ -54,6 +54,7 @@ text-align:center;
 width:90%;
 line-height:1.7;
 font-size:clamp(18px,2vw,30px);
+white-space:pre-line;
 }
 
 .leftText{
@@ -152,8 +153,8 @@ animation:flash .2s;
 }
 
 @keyframes flash{
-0%{background:white;}
-100%{background:transparent;}
+0%{opacity:1;}
+100%{opacity:1;}
 }
 
 #passwordBox{
@@ -848,17 +849,14 @@ setTimeout(()=>{
 typeText(el,restricted,5,()=>{
 
 setTimeout(()=>{
-for(let x=0;x<4;x++){
-setTimeout(()=>{
-document.body.classList.add('flash');
-setTimeout(()=>{
-document.body.classList.remove('flash');
-},100);
-},x*300);
-}
+
 
 setTimeout(()=>{
-el.innerHTML=`[Audio_File_Detected]\n\n[Session_38_Audio]\n\n<button onclick="playAudio('Restricted.mp3')">Play Audio</button>`;
+el.innerHTML=`[Audio_File_Detected]
+
+[Session_38_Audio]
+
+<button onclick="playAudio('Restricted.mp3')">Play Audio</button>`;
 },1800);
 
 },30000);
