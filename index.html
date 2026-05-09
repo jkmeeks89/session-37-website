@@ -25,7 +25,7 @@ body::before{
 content:"";
 position:fixed;
 inset:0;
-background:url('logo.png') no-repeat center center;
+background:url('background1.jpg') no-repeat center center;
 background-size:contain;
 z-index:-5;
 background-color:black;
@@ -193,7 +193,7 @@ max-width:700px;
 </head>
 <body>
 
-<audio id="player" class="audioPlayer" controls style="display:none;"></audio>
+<audio id="player" style="display:none;"></audio>
 
 <div id="home" class="screen active">
 <div class="topRight">3801</div>
@@ -292,9 +292,10 @@ openPage('home');
 }
 
 function playAudio(file){
-player.style.display='block';
+player.pause();
 player.src=file;
-player.play();
+player.load();
+player.play().catch(()=>{});
 }
 
 function typeText(el,text,speed=20,callback){
@@ -318,7 +319,7 @@ setTimeout(()=>{
 
 typeText(
 document.getElementById('intro'),
-'BLACKTHORNE STATE HOSPITAL\nForensic Psychiatry Division\nCase File: Daniel Stevenson\nAccessing Session Records...',
+'BLACKTHORNE STATE HOSPITAL\n\nForensic Psychiatry Division\nCase File: Daniel Stevenson\n\nAccessing Session Records...',
 20,
 ()=>{
 
