@@ -24,11 +24,17 @@ color:#39ff14;
 body::before{
 content:"";
 position:fixed;
-inset:0;
-background:url('background1.jpg') no-repeat center center;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background-image:url('background1.jpg');
+background-repeat:no-repeat;
+background-position:center center;
 background-size:contain;
-z-index:-5;
 background-color:black;
+z-index:-1;
+pointer-events:none;
 }
 
 .screen{
